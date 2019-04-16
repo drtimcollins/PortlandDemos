@@ -9,8 +9,8 @@ boolean showZeros = false;
 //PImage eq;
 PShape eqq;
 void setup() {
-  size(1000, 500);
-//  fullScreen();
+//  size(1024, 768);
+  fullScreen(2);
 //  eq = loadImage("LineArrayEquation.png");
   eqq = loadShape("lineArrayEquationA.svg");
   int fsize = (width + 1700)/300; 

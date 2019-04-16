@@ -1,0 +1,80 @@
+char[] sup = new char[10];
+char[] sub = new char[10];
+float []xPhi = new float[8];
+int r = 0;
+float rDraw = 0;
+int f = 3;
+float fDraw = 3;
+void setup(){
+  size(1200,768);
+//  for(int n = 0; n < 8; n++){
+//    xPhi[n] = (float)(n*3*45)*PI/180.0;
+//  }
+  for(int n = 0; n < 10; n++){
+    sup[n] = char(0x2070 + n);
+    sub[n] = char(0x2080 + n);
+  }
+  sup[1] = '¹';sup[2] = '²';sup[3] = '³';
+  fill(0);
+  textSize(18);
+}
+
+void draw(){
+  background(255);
+  rDraw = rDraw + ((float)r - rDraw)*0.1;
+  fDraw = fDraw + ((float)f - fDraw)*0.1;
+  textAlign(LEFT);
+  text("x(k) = exp("+f+".j2πk/8)",60,30);
+  text("r = "+r,60, 250);
+  textAlign(CENTER);
+  for(int n = 0; n < 8; n++){
+    xPhi[n] = (float)(n*45)*fDraw*PI/180.0;
+    float x = 80+140*n; //<>//
+    text("x"+sub[n],x,70);
+    text("x"+sub[n]+"W"+supNum(n*r),x,280);
+    arrow(x, 150,50, xPhi[n],color(0,0,180)); 
+    arrow(x, 360,50, xPhi[n]-(rDraw*(float)n)*PI/4,color(180,0,0)); 
+  }  
+}
+String supNum(int x){
+  char[] z = nf(x).toCharArray();
+  for(int n = 0; n < z.length; n++){
+    z[n] = sup[int(z[n] - '0')];
+  }
+  return new String(z);
+}
+
+void ax(float x0, float y0, float len){
+  pushMatrix();
+  stroke (0);
+  strokeWeight(1);
+  translate(x0,y0);
+  line(-len,0,len,0);
+  line(0,-len,0,len);
+  popMatrix();
+}
+
+void arrow(float x0, float y0, float len, float phi, color col){
+  ax(x0,y0,len*1.1);
+  pushMatrix();
+  stroke(col);
+  strokeWeight(3);
+  translate(x0,y0);
+  rotate(-phi);
+  line(0,0,len,0);
+  line(len*.9,len*.07,len,0);
+  line(len*.9,-len*.07,len,0);
+  popMatrix();
+}
+
+void keyPressed() {
+  if (key == CODED) {
+    if (keyCode == UP) {
+      f++;
+    } else if (keyCode == DOWN) {
+      f--;
+    }
+  } else if (key >= '0' && key <= '8') {
+    r = int(key - '0');
+  }
+}
